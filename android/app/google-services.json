@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "899933047541",
+    "project_id": "e-services-b42be",
+    "storage_bucket": "e-services-b42be.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:899933047541:android:206d8a09eee5487573d3bc",
+        "android_client_info": {
+          "package_name": "com.example.e_services"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD8nUWGoFhEiU-AafZQK5pYKU7HBSO6dPM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
