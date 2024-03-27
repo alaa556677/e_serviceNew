@@ -7,47 +7,47 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../core/widgets/button_custom_widget.dart';
 import '../../../../../core/widgets/custom_text.dart';
+import '../../../../../core/widgets/custom_text_form_field.dart';
 import '../../../../../core/widgets/default_screen.dart';
 import '../../../../../core/widgets/label_Text_form_field.dart';
 import '../../../../../core/widgets/snac_bar.dart';
-import '../../cubit/water_cubit.dart';
-import '../../cubit/water_states.dart';
+import '../../cubit/gas_cubit.dart';
+import '../../cubit/gas_states.dart';
 
-class WaterMaintenanceScreen extends StatefulWidget {
-  const WaterMaintenanceScreen({super.key,});
+class GasInstallationScreen extends StatefulWidget {
+  const GasInstallationScreen({super.key,});
   @override
-  State<WaterMaintenanceScreen> createState() => _WaterMaintenanceScreenState();
+  State<GasInstallationScreen> createState() => _GasInstallationScreenState();
 }
 
-class _WaterMaintenanceScreenState extends State<WaterMaintenanceScreen> {
+class _GasInstallationScreenState extends State<GasInstallationScreen> {
   TextEditingController nameController = TextEditingController();
   TextEditingController addressController = TextEditingController();
   TextEditingController mobileController = TextEditingController();
-  TextEditingController detailController = TextEditingController();
   var formKey = GlobalKey <FormState> ();
-  late WaterCubit waterCubit;
+  late GasCubit gasCubit;
 
   @override
   void dispose() {
     nameController.dispose();
     addressController.dispose();
     mobileController.dispose();
-    detailController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => WaterCubit(),
-      child: BlocConsumer<WaterCubit, WaterStates>(
+      create: (context) => GasCubit(),
+      child: BlocConsumer<GasCubit, GasStates>(
         listener: (context, state) {
-          if(state is SendMaintenanceRequestSuccess){
+          if(state is SendGasInstallationSuccess){
             nameController.clear();
             addressController.clear();
             mobileController.clear();
-            detailController.clear();
-            waterCubit.imageReceiptMaintenanceUrl = null;
+            gasCubit.idImageUrl = null;
+            gasCubit.imageContractUl = null;
+            gasCubit.imageReceiptUrl = null;
             defaultSnackBar(
                 context: context,
                 color: Colors.green,
@@ -56,7 +56,7 @@ class _WaterMaintenanceScreenState extends State<WaterMaintenanceScreen> {
           }
         },
         builder: (context, state) {
-          waterCubit = WaterCubit.get(context);
+          gasCubit = GasCubit.get(context);
           return DefaultScreen(
             body: Directionality(
               textDirection: TextDirection.rtl,
@@ -74,7 +74,7 @@ class _WaterMaintenanceScreenState extends State<WaterMaintenanceScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             TextWidget(
-                              text: 'تعديل وصيانة عداد المياه',
+                              text: 'تعاقد عداد الغاز',
                               fontColor: blackColor,
                               fontWeight: FontWeight.w600,
                               fontSize: 24.sp,
@@ -114,45 +114,81 @@ class _WaterMaintenanceScreenState extends State<WaterMaintenanceScreen> {
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: DropdownButton(
-                              items: ['شقة', 'وحدة سكنية', 'محل إيجار'].map((e) => DropdownMenuItem(
-                                  value: e,
-                                  child: TextWidget(
-                                    text: e,
-                                    fontColor: blackColor,
-                                    fontSize: 14.sp,
-                                    fontWeight: FontWeight.w300,
-                                  )
-                              )).toList(),
-                              padding: EdgeInsetsDirectional.symmetric(horizontal: 10.w),
-                              borderRadius: BorderRadius.circular(10.r),
-                              underline: Container(),
-                              isExpanded: true,
-                              value: waterCubit.selectedTypeInstallation,
-                              onChanged: (val){
-                                waterCubit.changeItemInstallation(val);
-                              }
+                            items: ['شقة', 'وحدة سكنية', 'محل إيجار'].map((e) => DropdownMenuItem(
+                              value: e,
+                              child: TextWidget(
+                                text: e,
+                                fontColor: blackColor,
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w300,
+                              )
+                            )).toList(),
+                            padding: EdgeInsetsDirectional.symmetric(horizontal: 10.w),
+                            borderRadius: BorderRadius.circular(10.r),
+                            underline: Container(),
+                            isExpanded: true,
+                            value: gasCubit.selectedTypeInstallation,
+                            onChanged: (val){
+                              gasCubit.changeItemInstallation(val);
+                            }
                           ),
                         ),
-                        SizedBox(height: 10.h,),
-                        LabelTextFormField(
-                          hintText: "الوصف",
-                          controller: detailController,
-                          label: 'وصف الحالة',
-                        ),
-                        SizedBox(height: 10.h,),
+                        SizedBox(height: 20.h,),
                         ConditionalBuilder(
-                          condition: state is !UploadMaintenanceReceiptImageLoading,
+                          condition: state is !UploadIDImageLoading,
                           builder: (context) => UploadImageCard(
-                            text: 'ايصال مرفق باسم العميل',
+                            text: 'صورة إثبات ضخصية',
                             onTap: () {
-                              waterCubit.uploadImageReceiptMaintenance();
+                              gasCubit.uploadImageId();
                             },
-                            imagePath: "assets/images/bill.png",
-                            image: waterCubit.imageReceiptMaintenanceUrl,
+                            imagePath: "assets/images/upload_id.png",
+                            image: gasCubit.idImageUrl,
                             imageWidget: Container(
                               decoration: BoxDecoration(
                                   image: DecorationImage(
-                                      image: NetworkImage('${waterCubit.imageReceiptMaintenanceUrl}'),
+                                      image: NetworkImage('${gasCubit.idImageUrl}'),
+                                      fit: BoxFit.cover
+                                  )
+                              ),
+                            ),
+                          ),
+                          fallback: (context) => const Center(child: CircularProgressIndicator(),),
+                        ),
+                        SizedBox(height: 20.h,),
+                        ConditionalBuilder(
+                          condition: state is !UploadContractImageLoading,
+                          builder: (context) => UploadImageCard(
+                            text: 'صورة عقد التمليك',
+                            onTap: () {
+                              gasCubit.uploadImageContract();
+                            },
+                            imagePath: "assets/images/contract.png",
+                            image: gasCubit.imageContractUl,
+                            imageWidget: Container(
+                              decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                      image: NetworkImage('${gasCubit.imageContractUl}'),
+                                      fit: BoxFit.cover
+                                  )
+                              ),
+                            ),
+                          ),
+                          fallback: (context) => const Center(child: CircularProgressIndicator(),),
+                        ),
+                        SizedBox(height: 20.h,),
+                        ConditionalBuilder(
+                          condition: state is !UploadReceiptImageLoading,
+                          builder: (context) => UploadImageCard(
+                            text: 'ايصال مرفق باسم العميل',
+                            onTap: () {
+                              gasCubit.uploadImageReceipt();
+                            },
+                            imagePath: "assets/images/bill.png",
+                            image: gasCubit.imageReceiptUrl,
+                            imageWidget: Container(
+                              decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                      image: NetworkImage('${gasCubit.imageReceiptUrl}'),
                                       fit: BoxFit.cover
                                   )
                               ),
@@ -169,14 +205,15 @@ class _WaterMaintenanceScreenState extends State<WaterMaintenanceScreen> {
                           MediaQuery.of(context).size.width,
                           buttonHeight: 48,
                           onPressed: (){
-                            if(formKey.currentState!.validate() && waterCubit.imageReceiptMaintenanceUrl != null){
-                              waterCubit.sendMaintenanceRequest(
-                                  customerName: nameController.text,
-                                  customerAddress: addressController.text,
-                                  customerMobile: mobileController.text,
-                                  homeType: waterCubit.selectedTypeInstallation,
-                                  details: detailController.text,
-                                  imageReceiptMaintenance: waterCubit.imageReceiptMaintenanceUrl
+                            if(formKey.currentState!.validate() && gasCubit.idImageUrl != null && gasCubit.imageContractUl != null && gasCubit.imageReceiptUrl != null){
+                              gasCubit.sendGasInstallation(
+                                customerName: nameController.text,
+                                customerAddress: addressController.text,
+                                customerMobile: mobileController.text,
+                                homeType: gasCubit.selectedTypeInstallation,
+                                idImage: gasCubit.idImageUrl,
+                                imageContract: gasCubit.imageContractUl,
+                                imageReceipt: gasCubit.imageReceiptUrl,
                               );
                             }else{
                               defaultSnackBar(

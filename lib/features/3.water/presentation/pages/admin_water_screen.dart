@@ -23,8 +23,6 @@ class AdminWaterScreen extends StatelessWidget {
                 CardBasicItem(
                   title: 'طلبات التعاقد عداد مياه',
                   subTitle: 'طلبات التعاقدات لتركيب عدادات جديدة',
-
-                  //subTitle: 'يمكنك تقديم طلب لتركيب عداد جديد بدون الحاجة للذهاب الى الشركة',
                   onTap: (){
                     Navigator.push(context, MaterialPageRoute(builder: (context) =>  AdminWaterInstallationRequestsScreen()));
                   },

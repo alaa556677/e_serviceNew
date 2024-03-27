@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'core/widgets/default_screen.dart';
 import 'features/1.login/presentation/pages/Login_screen.dart';
+import 'features/1.login/presentation/pages/authentication_screen.dart';
 
 class SplashScreen extends StatefulWidget{
   const SplashScreen({super.key});
@@ -16,7 +17,7 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
     Future.delayed(const Duration(seconds:3), (){
       Navigator.pushAndRemoveUntil(context,
-          MaterialPageRoute(builder: (context) => LoginScreen()), (route) => false);
+          MaterialPageRoute(builder: (context) => AuthenticationScreen()), (route) => false);
     }
     );
   }

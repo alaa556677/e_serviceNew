@@ -1,19 +1,18 @@
 import 'package:e_services/admin_features/admin_gas/cubit/admin_gas_cubit.dart';
-import 'package:e_services/admin_features/admin_gas/pages/admin_gas_meter_readin_requests_screen.dart';
-import 'package:e_services/admin_features/admin_gas/pages/admin_gas_installation_requests_screen.dart';
-import 'package:e_services/admin_features/admin_gas/pages/admin_gas_maintenance_requests_screen.dart';
-import 'package:e_services/admin_features/admin_gas/pages/admin_gas_remove_meter_requests_screen.dart';
+import 'package:e_services/features/4.gas/presentation/pages/3.gas_meter_reading/admin_gas_meter_readin_requests_screen.dart';
+import 'package:e_services/features/4.gas/presentation/pages/1.gas_installation/admin_gas_installation_requests_screen.dart';
+import 'package:e_services/features/4.gas/presentation/pages/2.gas_maintenance/admin_gas_maintenance_requests_screen.dart';
+import 'package:e_services/features/4.gas/presentation/pages/4.remove_gas_meter/admin_gas_remove_meter_requests_screen.dart';
 import 'package:e_services/core/widgets/default_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../core/utils/colors.dart';
-import '../../../../core/widgets/card_basic_item.dart';
+import '../../../../../core/utils/colors.dart';
+import '../../../../../core/widgets/card_basic_item.dart';
 
 
 class AdminGasScreen extends StatelessWidget {
   const AdminGasScreen({super.key});
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(

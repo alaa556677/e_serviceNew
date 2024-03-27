@@ -1,5 +1,5 @@
 import 'package:e_services/admin_features/admin_electicity/pages/admin_electricity_screen.dart';
-import 'package:e_services/admin_features/admin_gas/pages/admin_gas_screen.dart';
+import 'package:e_services/features/4.gas/presentation/pages/admin_gas_screen.dart';
 import 'package:e_services/core/utils/colors.dart';
 import 'package:e_services/core/widgets/home_component.dart';
 import 'package:flutter/cupertino.dart';

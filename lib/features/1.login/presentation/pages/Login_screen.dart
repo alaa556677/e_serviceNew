@@ -32,7 +32,6 @@ class _LoginScreenState extends State<LoginScreen> {
     return MultiBlocProvider(
       providers: [
         BlocProvider<RegisterCubit>(create: (context) => RegisterCubit()),
-        BlocProvider<GasCubit>(create: (context) => GasCubit()),
         BlocProvider<ElectricityCubit>(create: (context) => ElectricityCubit()),
       ],
       child: BlocConsumer<RegisterCubit, RegisterStates>(

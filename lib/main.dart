@@ -1,3 +1,4 @@
+import 'package:e_services/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -22,9 +23,9 @@ class MyApp extends StatelessWidget{
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (BuildContext context, Widget? child){
-        return MaterialApp(
+        return const MaterialApp(
           debugShowCheckedModeBanner: false,
-          home: LoginScreen(),
+          home: SplashScreen(),
         );
       },
     ) ;

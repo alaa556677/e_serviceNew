@@ -26,7 +26,18 @@ class _WaterMeterReadingScreenState extends State<WaterMeterReadingScreen> {
   TextEditingController meterReadingController = TextEditingController();
   TextEditingController nowReadingController = TextEditingController();
   TextEditingController previousTypeController = TextEditingController();
+  var formKey = GlobalKey <FormState> ();
   late WaterCubit waterCubit;
+
+  @override
+  void dispose() {
+    customerNameController.dispose();
+    customerAddressController.dispose();
+    meterReadingController.dispose();
+    nowReadingController.dispose();
+    previousTypeController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,95 +68,106 @@ class _WaterMeterReadingScreenState extends State<WaterMeterReadingScreen> {
                 padding: EdgeInsetsDirectional.symmetric(
                     horizontal: 20.w, vertical: 20.h),
                 child: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(height: 30.h),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          TextWidget(
-                            text: 'قراءة عداد المياه',
-                            fontColor: blackColor,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 24.sp,
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 20.h,),
-                      LabelTextFormField(
-                        hintText: "اسم العميل",
-                        controller: customerNameController,
-                        label: 'اسم العميل',
-                      ),
-                      SizedBox(height: 10.h,),
-                      LabelTextFormField(
-                        hintText: "العنوان",
-                        controller: customerAddressController,
-                        label: 'العنوان',
-                      ),
-                      SizedBox(height: 10.h,),
-                      LabelTextFormField(
-                        hintText: "رقم العداد",
-                        controller: meterReadingController,
-                        keyboardType: TextInputType.number,
-                        label: 'رقم العداد',
-                      ),
-                      SizedBox(height: 10.h,),
-                      LabelTextFormField(
-                        hintText: "القراءة السابقة",
-                        controller: nowReadingController,
-                        keyboardType: TextInputType.number,
-                        label: 'القراءة السابقة',
-                      ),
-                      SizedBox(height: 10.h,),
-                      LabelTextFormField(
-                        hintText: "القراءة الحالية",
-                        controller: previousTypeController,
-                        keyboardType: TextInputType.number,
-                        label: 'القراءة الحالية',
-                      ),
-                      SizedBox(height: 10.h,),
-                      ConditionalBuilder(
-                        condition: state is !UploadImageMeterReceiptLoading,
-                        builder: (context) =>  UploadImageCard(
-                          text: 'صورة من الوصل',
-                          onTap: () {
-                            waterCubit.uploadImageMeterReceiptMaintenance();
-                          },
-                          imagePath: "assets/images/bill.png",
-                          image: waterCubit.imageMeterReceiptUrl,
-                          imageWidget: Container(
-                            decoration: BoxDecoration(
-                                image: DecorationImage(
-                                    image: NetworkImage('${waterCubit.imageMeterReceiptUrl}'),
-                                    fit: BoxFit.cover
-                                )
+                  child: Form(
+                    key: formKey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(height: 30.h),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            TextWidget(
+                              text: 'قراءة عداد المياه',
+                              fontColor: blackColor,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 24.sp,
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 20.h,),
+                        LabelTextFormField(
+                          hintText: "اسم العميل",
+                          controller: customerNameController,
+                          label: 'اسم العميل',
+                        ),
+                        SizedBox(height: 10.h,),
+                        LabelTextFormField(
+                          hintText: "العنوان",
+                          controller: customerAddressController,
+                          label: 'العنوان',
+                        ),
+                        SizedBox(height: 10.h,),
+                        LabelTextFormField(
+                          hintText: "رقم العداد",
+                          controller: meterReadingController,
+                          keyboardType: TextInputType.number,
+                          label: 'رقم العداد',
+                        ),
+                        SizedBox(height: 10.h,),
+                        LabelTextFormField(
+                          hintText: "القراءة السابقة",
+                          controller: nowReadingController,
+                          keyboardType: TextInputType.number,
+                          label: 'القراءة السابقة',
+                        ),
+                        SizedBox(height: 10.h,),
+                        LabelTextFormField(
+                          hintText: "القراءة الحالية",
+                          controller: previousTypeController,
+                          keyboardType: TextInputType.number,
+                          label: 'القراءة الحالية',
+                        ),
+                        SizedBox(height: 10.h,),
+                        ConditionalBuilder(
+                          condition: state is !UploadImageMeterReceiptLoading,
+                          builder: (context) =>  UploadImageCard(
+                            text: 'صورة ايصال',
+                            onTap: () {
+                              waterCubit.uploadImageMeterReceiptMaintenance();
+                            },
+                            imagePath: "assets/images/bill.png",
+                            image: waterCubit.imageMeterReceiptUrl,
+                            imageWidget: Container(
+                              decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                      image: NetworkImage('${waterCubit.imageMeterReceiptUrl}'),
+                                      fit: BoxFit.cover
+                                  )
+                              ),
                             ),
                           ),
+                          fallback: (context) => const Center(child: CircularProgressIndicator(),),
                         ),
-                        fallback: (context) => const Center(child: CircularProgressIndicator(),),
-                      ),
-                      SizedBox(height: 20.h,),
-                      ButtonCustomWidget(
-                        buttonColor: blueColor,
-                        text: "إرسال",
-                        color: whiteColor,
-                        buttonWidth:
-                        MediaQuery.of(context).size.width,
-                        buttonHeight: 48,
-                        onPressed: (){
-                          waterCubit.sendWaterMeterReading(
-                            customerName: customerNameController.text,
-                            customerAddress: customerAddressController.text,
-                            meterNumber: meterReadingController.text,
-                            previousReading: previousTypeController.text,
-                            nowReading: nowReadingController.text,
-                            imageMeterReceipt: waterCubit.imageMeterReceiptUrl
-                          );
-                        },
-                      ),
-                    ],
+                        SizedBox(height: 20.h,),
+                        ButtonCustomWidget(
+                          buttonColor: blueColor,
+                          text: "إرسال",
+                          color: whiteColor,
+                          buttonWidth:
+                          MediaQuery.of(context).size.width,
+                          buttonHeight: 48,
+                          onPressed: (){
+                            if(formKey.currentState!.validate() && waterCubit.imageMeterReceiptUrl != null){
+                              waterCubit.sendWaterMeterReading(
+                                  customerName: customerNameController.text,
+                                  customerAddress: customerAddressController.text,
+                                  meterNumber: meterReadingController.text,
+                                  previousReading: previousTypeController.text,
+                                  nowReading: nowReadingController.text,
+                                  imageMeterReceipt: waterCubit.imageMeterReceiptUrl
+                              );
+                            }else{
+                              defaultSnackBar(
+                                  context: context,
+                                  color: Colors.red,
+                                  text: 'من فضلك تأكد من ارسال كل المعلومات المطلوبة والصور المطلوبة'
+                              );
+                            }
+                          },
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),

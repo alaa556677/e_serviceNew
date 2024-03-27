@@ -1,4 +1,5 @@
 import 'package:e_services/core/utils/colors.dart';
+import 'package:e_services/core/widgets/upload_image_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,16 +9,16 @@ import '../../../../../core/widgets/custom_text.dart';
 import '../../../../../core/widgets/default_screen.dart';
 import '../../../../../core/widgets/label_Text_form_field.dart';
 import '../../../../../core/widgets/snac_bar.dart';
-import '../../cubit/water_cubit.dart';
-import '../../cubit/water_states.dart';
+import '../../cubit/gas_cubit.dart';
+import '../../cubit/gas_states.dart';
 
-class WaterRemoveMeterScreen extends StatefulWidget {
-  const WaterRemoveMeterScreen({super.key,});
+class GasRemoveMeterScreen extends StatefulWidget {
+  GasRemoveMeterScreen({super.key,});
   @override
-  State<WaterRemoveMeterScreen> createState() => _WaterRemoveMeterScreenState();
+  State<GasRemoveMeterScreen> createState() => _GasRemoveMeterScreenState();
 }
 
-class _WaterRemoveMeterScreenState extends State<WaterRemoveMeterScreen> {
+class _GasRemoveMeterScreenState extends State<GasRemoveMeterScreen> {
   TextEditingController nameController = TextEditingController();
   TextEditingController addressController = TextEditingController();
   TextEditingController mobileController = TextEditingController();
@@ -25,7 +26,7 @@ class _WaterRemoveMeterScreenState extends State<WaterRemoveMeterScreen> {
   TextEditingController meterReadingController = TextEditingController();
   TextEditingController detailController = TextEditingController();
   var formKey = GlobalKey <FormState> ();
-  late WaterCubit waterCubit;
+  late GasCubit gasCubit;
 
   @override
   void dispose() {
@@ -41,10 +42,10 @@ class _WaterRemoveMeterScreenState extends State<WaterRemoveMeterScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => WaterCubit(),
-      child: BlocConsumer<WaterCubit, WaterStates>(
+      create: (context) => GasCubit(),
+      child: BlocConsumer<GasCubit, GasStates>(
         listener: (context, state) {
-          if(state is SendRemoveWaterMeterSuccess){
+          if(state is SendRemoveGasMeterSuccess){
             nameController.clear();
             addressController.clear();
             mobileController.clear();
@@ -59,7 +60,7 @@ class _WaterRemoveMeterScreenState extends State<WaterRemoveMeterScreen> {
           }
         },
         builder: (context, state) {
-          waterCubit = WaterCubit.get(context);
+          gasCubit = GasCubit.get(context);
           return DefaultScreen(
             body: Directionality(
               textDirection: TextDirection.rtl,
@@ -76,7 +77,7 @@ class _WaterRemoveMeterScreenState extends State<WaterRemoveMeterScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             TextWidget(
-                              text: 'رفع عداد المياه',
+                              text: 'رفع عداد الغاز',
                               fontColor: blackColor,
                               fontWeight: FontWeight.w600,
                               fontSize: 24.sp,
@@ -132,7 +133,7 @@ class _WaterRemoveMeterScreenState extends State<WaterRemoveMeterScreen> {
                           buttonHeight: 48,
                           onPressed: (){
                             if(formKey.currentState!.validate()){
-                              waterCubit.sendRemoveWaterMeter(
+                              gasCubit.sendRemoveGasMeter(
                                   customerName: nameController.text,
                                   customerAddress: addressController.text,
                                   customerMobile: mobileController.text,

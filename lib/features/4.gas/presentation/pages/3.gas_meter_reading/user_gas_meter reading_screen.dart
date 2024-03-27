@@ -7,47 +7,51 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../core/widgets/button_custom_widget.dart';
 import '../../../../../core/widgets/custom_text.dart';
+import '../../../../../core/widgets/custom_text_form_field.dart';
 import '../../../../../core/widgets/default_screen.dart';
 import '../../../../../core/widgets/label_Text_form_field.dart';
 import '../../../../../core/widgets/snac_bar.dart';
-import '../../cubit/water_cubit.dart';
-import '../../cubit/water_states.dart';
+import '../../cubit/gas_cubit.dart';
+import '../../cubit/gas_states.dart';
 
-class WaterMaintenanceScreen extends StatefulWidget {
-  const WaterMaintenanceScreen({super.key,});
+class GasMeterReadingScreen extends StatefulWidget {
+  GasMeterReadingScreen({super.key,});
   @override
-  State<WaterMaintenanceScreen> createState() => _WaterMaintenanceScreenState();
+  State<GasMeterReadingScreen> createState() => _GasMeterReadingScreenState();
 }
 
-class _WaterMaintenanceScreenState extends State<WaterMaintenanceScreen> {
-  TextEditingController nameController = TextEditingController();
-  TextEditingController addressController = TextEditingController();
-  TextEditingController mobileController = TextEditingController();
-  TextEditingController detailController = TextEditingController();
+class _GasMeterReadingScreenState extends State<GasMeterReadingScreen> {
+  TextEditingController customerNameController = TextEditingController();
+  TextEditingController customerAddressController = TextEditingController();
+  TextEditingController meterReadingController = TextEditingController();
+  TextEditingController nowReadingController = TextEditingController();
+  TextEditingController previousTypeController = TextEditingController();
   var formKey = GlobalKey <FormState> ();
-  late WaterCubit waterCubit;
+  late GasCubit gasCubit;
 
   @override
   void dispose() {
-    nameController.dispose();
-    addressController.dispose();
-    mobileController.dispose();
-    detailController.dispose();
+    customerNameController.dispose();
+    customerAddressController.dispose();
+    meterReadingController.dispose();
+    nowReadingController.dispose();
+    previousTypeController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => WaterCubit(),
-      child: BlocConsumer<WaterCubit, WaterStates>(
+      create: (context) => GasCubit(),
+      child: BlocConsumer<GasCubit, GasStates>(
         listener: (context, state) {
-          if(state is SendMaintenanceRequestSuccess){
-            nameController.clear();
-            addressController.clear();
-            mobileController.clear();
-            detailController.clear();
-            waterCubit.imageReceiptMaintenanceUrl = null;
+          if(state is SendGasReadingSuccess){
+            nowReadingController.clear();
+            previousTypeController.clear();
+            customerNameController.clear();
+            customerAddressController.clear();
+            meterReadingController.clear();
+            gasCubit.imageMeterReceiptUrl = null;
             defaultSnackBar(
                 context: context,
                 color: Colors.green,
@@ -56,7 +60,7 @@ class _WaterMaintenanceScreenState extends State<WaterMaintenanceScreen> {
           }
         },
         builder: (context, state) {
-          waterCubit = WaterCubit.get(context);
+          gasCubit = GasCubit.get(context);
           return DefaultScreen(
             body: Directionality(
               textDirection: TextDirection.rtl,
@@ -74,7 +78,7 @@ class _WaterMaintenanceScreenState extends State<WaterMaintenanceScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             TextWidget(
-                              text: 'تعديل وصيانة عداد المياه',
+                              text: 'قراءة عداد الغاز',
                               fontColor: blackColor,
                               fontWeight: FontWeight.w600,
                               fontSize: 24.sp,
@@ -83,76 +87,51 @@ class _WaterMaintenanceScreenState extends State<WaterMaintenanceScreen> {
                         ),
                         SizedBox(height: 20.h,),
                         LabelTextFormField(
-                          hintText: "اكتب الاسم",
-                          controller: nameController,
+                          hintText: "اسم العميل",
+                          controller: customerNameController,
                           label: 'اسم العميل',
                         ),
                         SizedBox(height: 10.h,),
                         LabelTextFormField(
-                          hintText: "اكتب العنوان",
-                          controller: addressController,
+                          hintText: "العنوان",
+                          controller: customerAddressController,
                           label: 'العنوان',
                         ),
                         SizedBox(height: 10.h,),
                         LabelTextFormField(
-                          hintText: "اكتب رقم موبايل",
-                          controller: mobileController,
-                          label: 'رقم الموبايل',
+                          hintText: "رقم العداد",
+                          controller: meterReadingController,
                           keyboardType: TextInputType.number,
-                        ),
-                        SizedBox(height: 10.h,),
-                        TextWidget(
-                          text: "نوع العقار",
-                          fontSize: 14.sp,
-                          fontColor: textGreyColor,
-                          fontWeight: FontWeight.w400,
-                        ),
-                        SizedBox(height: 5.h,),
-                        Container(
-                          decoration: BoxDecoration(
-                            border: Border.all(color: textGreyColor),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          child: DropdownButton(
-                              items: ['شقة', 'وحدة سكنية', 'محل إيجار'].map((e) => DropdownMenuItem(
-                                  value: e,
-                                  child: TextWidget(
-                                    text: e,
-                                    fontColor: blackColor,
-                                    fontSize: 14.sp,
-                                    fontWeight: FontWeight.w300,
-                                  )
-                              )).toList(),
-                              padding: EdgeInsetsDirectional.symmetric(horizontal: 10.w),
-                              borderRadius: BorderRadius.circular(10.r),
-                              underline: Container(),
-                              isExpanded: true,
-                              value: waterCubit.selectedTypeInstallation,
-                              onChanged: (val){
-                                waterCubit.changeItemInstallation(val);
-                              }
-                          ),
+                          label: 'رقم العداد',
                         ),
                         SizedBox(height: 10.h,),
                         LabelTextFormField(
-                          hintText: "الوصف",
-                          controller: detailController,
-                          label: 'وصف الحالة',
+                          hintText: "القراءة السابقة",
+                          controller: nowReadingController,
+                          keyboardType: TextInputType.number,
+                          label: 'القراءة السابقة',
+                        ),
+                        SizedBox(height: 10.h,),
+                        LabelTextFormField(
+                          hintText: "القراءة الحالية",
+                          controller: previousTypeController,
+                          keyboardType: TextInputType.number,
+                          label: 'القراءة الحالية',
                         ),
                         SizedBox(height: 10.h,),
                         ConditionalBuilder(
-                          condition: state is !UploadMaintenanceReceiptImageLoading,
-                          builder: (context) => UploadImageCard(
-                            text: 'ايصال مرفق باسم العميل',
+                          condition: state is !UploadImageMeterLoading,
+                          builder: (context) =>  UploadImageCard(
+                            text: 'صورة ايصال',
                             onTap: () {
-                              waterCubit.uploadImageReceiptMaintenance();
+                              gasCubit.uploadImageMeterReceipt();
                             },
                             imagePath: "assets/images/bill.png",
-                            image: waterCubit.imageReceiptMaintenanceUrl,
+                            image: gasCubit.imageMeterReceiptUrl,
                             imageWidget: Container(
                               decoration: BoxDecoration(
                                   image: DecorationImage(
-                                      image: NetworkImage('${waterCubit.imageReceiptMaintenanceUrl}'),
+                                      image: NetworkImage('${gasCubit.imageMeterReceiptUrl}'),
                                       fit: BoxFit.cover
                                   )
                               ),
@@ -169,14 +148,14 @@ class _WaterMaintenanceScreenState extends State<WaterMaintenanceScreen> {
                           MediaQuery.of(context).size.width,
                           buttonHeight: 48,
                           onPressed: (){
-                            if(formKey.currentState!.validate() && waterCubit.imageReceiptMaintenanceUrl != null){
-                              waterCubit.sendMaintenanceRequest(
-                                  customerName: nameController.text,
-                                  customerAddress: addressController.text,
-                                  customerMobile: mobileController.text,
-                                  homeType: waterCubit.selectedTypeInstallation,
-                                  details: detailController.text,
-                                  imageReceiptMaintenance: waterCubit.imageReceiptMaintenanceUrl
+                            if(formKey.currentState!.validate() && gasCubit.imageMeterReceiptUrl != null){
+                              gasCubit.sendGasMeterReading(
+                                  customerName: customerNameController.text,
+                                  customerAddress: customerAddressController.text,
+                                  meterNumber: meterReadingController.text,
+                                  previousReading: previousTypeController.text,
+                                  nowReading: nowReadingController.text,
+                                  imageMeterReceipt: gasCubit.imageMeterReceiptUrl
                               );
                             }else{
                               defaultSnackBar(

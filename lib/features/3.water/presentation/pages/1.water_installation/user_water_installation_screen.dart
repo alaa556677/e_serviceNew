@@ -24,7 +24,16 @@ class _WaterInstallationScreenState extends State<WaterInstallationScreen> {
   TextEditingController nameController = TextEditingController();
   TextEditingController addressController = TextEditingController();
   TextEditingController mobileController = TextEditingController();
+  var formKey = GlobalKey <FormState> ();
   late WaterCubit waterCubit;
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    addressController.dispose();
+    mobileController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,162 +64,173 @@ class _WaterInstallationScreenState extends State<WaterInstallationScreen> {
                 padding: EdgeInsetsDirectional.symmetric(
                     horizontal: 20.w, vertical: 20.h),
                 child: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(height: 30.h),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          TextWidget(
-                            text: 'تعاقد عداد المياه',
-                            fontColor: blackColor,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 24.sp,
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 20.h,),
-                      LabelTextFormField(
-                        hintText: "اكتب الاسم",
-                        controller: nameController,
-                        label: 'اسم العميل',
-                      ),
-                      SizedBox(height: 10.h,),
-                      LabelTextFormField(
-                        hintText: "اكتب العنوان",
-                        controller: addressController,
-                        label: 'العنوان',
-                      ),
-                      SizedBox(height: 10.h,),
-                      LabelTextFormField(
-                        hintText: "اكتب رقم موبايل",
-                        controller: mobileController,
-                        label: 'رقم الموبايل',
-                        keyboardType: TextInputType.number,
-                      ),
-                      SizedBox(height: 10.h,),
-                      TextWidget(
-                        text: "نوع العقار",
-                        fontSize: 14.sp,
-                        fontColor: textGreyColor,
-                        fontWeight: FontWeight.w400,
-                      ),
-                      SizedBox(height: 5.h,),
-                      Container(
-                        decoration: BoxDecoration(
-                          border: Border.all(color: textGreyColor),
-                          borderRadius: BorderRadius.circular(10),
+                  child: Form(
+                    key: formKey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(height: 30.h),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            TextWidget(
+                              text: 'تعاقد عداد المياه',
+                              fontColor: blackColor,
+                              fontWeight: FontWeight.w600,
+                              fontSize: 24.sp,
+                            ),
+                          ],
                         ),
-                        child: DropdownButton(
-                            items: ['شقة', 'وحدة سكنية', 'محل إيجار'].map((e) => DropdownMenuItem(
-                                value: e,
-                                child: TextWidget(
-                                  text: e,
-                                  fontColor: blackColor,
-                                  fontSize: 14.sp,
-                                  fontWeight: FontWeight.w300,
-                                )
-                            )).toList(),
-                            padding: EdgeInsetsDirectional.symmetric(horizontal: 10.w),
-                            borderRadius: BorderRadius.circular(10.r),
-                            underline: Container(),
-                            isExpanded: true,
-                            value: waterCubit.selectedTypeInstallation,
-                            onChanged: (val){
-                              waterCubit.changeItemInstallation(val);
+                        SizedBox(height: 20.h,),
+                        LabelTextFormField(
+                          hintText: "اكتب الاسم",
+                          controller: nameController,
+                          label: 'اسم العميل',
+                        ),
+                        SizedBox(height: 10.h,),
+                        LabelTextFormField(
+                          hintText: "اكتب العنوان",
+                          controller: addressController,
+                          label: 'العنوان',
+                        ),
+                        SizedBox(height: 10.h,),
+                        LabelTextFormField(
+                          hintText: "اكتب رقم موبايل",
+                          controller: mobileController,
+                          label: 'رقم الموبايل',
+                          keyboardType: TextInputType.number,
+                        ),
+                        SizedBox(height: 10.h,),
+                        TextWidget(
+                          text: "نوع العقار",
+                          fontSize: 14.sp,
+                          fontColor: textGreyColor,
+                          fontWeight: FontWeight.w400,
+                        ),
+                        SizedBox(height: 5.h,),
+                        Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(color: textGreyColor),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: DropdownButton(
+                              items: ['شقة', 'وحدة سكنية', 'محل إيجار'].map((e) => DropdownMenuItem(
+                                  value: e,
+                                  child: TextWidget(
+                                    text: e,
+                                    fontColor: blackColor,
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.w300,
+                                  )
+                              )).toList(),
+                              padding: EdgeInsetsDirectional.symmetric(horizontal: 10.w),
+                              borderRadius: BorderRadius.circular(10.r),
+                              underline: Container(),
+                              isExpanded: true,
+                              value: waterCubit.selectedTypeInstallation,
+                              onChanged: (val){
+                                waterCubit.changeItemInstallation(val);
 
-                            }
-                        ),
-                      ),
-                      SizedBox(height: 20.h,),
-                      ConditionalBuilder(
-                        condition: state is !UploadIDImageLoading,
-                        builder: (context) => UploadImageCard(
-                          text: 'صورة إثبات ضخصية',
-                          onTap: () {
-                            waterCubit.uploadImageId();
-                          },
-                          imagePath: "assets/images/upload_id.png",
-                          image: waterCubit.idImageUrl,
-                          imageWidget: Container(
-                            decoration: BoxDecoration(
-                                image: DecorationImage(
-                                    image: NetworkImage('${waterCubit.idImageUrl}'),
-                                    fit: BoxFit.cover
-                                )
-                            ),
+                              }
                           ),
                         ),
-                        fallback: (context) => const Center(child: CircularProgressIndicator(),),
-                      ),
-                      SizedBox(height: 20.h,),
-                      ConditionalBuilder(
-                        condition: state is !UploadContractImageLoading,
-                        builder: (context) =>  UploadImageCard(
-                          text: 'صورة من عقد التمليك',
-                          onTap: () {
-                            waterCubit.uploadImageContract();
-                          },
-                          imagePath: "assets/images/contract.png",
-                          image: waterCubit.imageContractUrl,
-                          imageWidget: Container(
-                            decoration: BoxDecoration(
-                                image: DecorationImage(
-                                    image: NetworkImage('${waterCubit.imageContractUrl}'),
-                                    fit: BoxFit.cover
-                                )
+                        SizedBox(height: 20.h,),
+                        ConditionalBuilder(
+                          condition: state is !UploadIDImageLoading,
+                          builder: (context) => UploadImageCard(
+                            text: 'صورة إثبات ضخصية',
+                            onTap: () {
+                              waterCubit.uploadImageId();
+                            },
+                            imagePath: "assets/images/upload_id.png",
+                            image: waterCubit.idImageUrl,
+                            imageWidget: Container(
+                              decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                      image: NetworkImage('${waterCubit.idImageUrl}'),
+                                      fit: BoxFit.cover
+                                  )
+                              ),
                             ),
                           ),
+                          fallback: (context) => const Center(child: CircularProgressIndicator(),),
                         ),
-                        fallback: (context) => const Center(child: CircularProgressIndicator(),),
-                      ),
-                      SizedBox(height: 20.h,),
-                      ConditionalBuilder(
-                        condition: state is !UploadReceiptImageLoading,
-                        builder: (context) =>  UploadImageCard(
-                          text: 'ايصال مرفق باسم العميل',
-                          onTap: () {
-                            waterCubit.uploadImageReceipt();
-                          },
-                          imagePath: "assets/images/bill.png",
-                          image: waterCubit.imageReceiptUrl,
-                          imageWidget: Container(
-                            decoration: BoxDecoration(
-                                image: DecorationImage(
-                                    image: NetworkImage('${waterCubit.imageReceiptUrl}'),
-                                    fit: BoxFit.cover
-                                )
+                        SizedBox(height: 20.h,),
+                        ConditionalBuilder(
+                          condition: state is !UploadContractImageLoading,
+                          builder: (context) =>  UploadImageCard(
+                            text: 'صورة من عقد التمليك',
+                            onTap: () {
+                              waterCubit.uploadImageContract();
+                            },
+                            imagePath: "assets/images/contract.png",
+                            image: waterCubit.imageContractUrl,
+                            imageWidget: Container(
+                              decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                      image: NetworkImage('${waterCubit.imageContractUrl}'),
+                                      fit: BoxFit.cover
+                                  )
+                              ),
                             ),
                           ),
+                          fallback: (context) => const Center(child: CircularProgressIndicator(),),
                         ),
-                        fallback: (context) => const Center(child: CircularProgressIndicator(),),
-                      ),
-                      SizedBox(height: 20.h,),
-                      ConditionalBuilder(
-                        condition: state is !SendWaterInstallationLoading,
-                        builder: (context) =>  ButtonCustomWidget(
-                          buttonColor: blueColor,
-                          text: "إرسال",
-                          color: whiteColor,
-                          buttonWidth:
-                          MediaQuery.of(context).size.width,
-                          buttonHeight: 48,
-                          onPressed: (){
-                            waterCubit.sendWaterInstallation(
-                                customerName: nameController.text,
-                                customerAddress: addressController.text,
-                                customerMobile: mobileController.text,
-                                homeType: waterCubit.selectedTypeInstallation,
-                                idImage: waterCubit.idImageUrl,
-                                imageContract: waterCubit.imageContractUrl,
-                                imageReceipt: waterCubit.imageReceiptUrl
-                            );
-                          },
+                        SizedBox(height: 20.h,),
+                        ConditionalBuilder(
+                          condition: state is !UploadReceiptImageLoading,
+                          builder: (context) =>  UploadImageCard(
+                            text: 'ايصال مرفق باسم العميل',
+                            onTap: () {
+                              waterCubit.uploadImageReceipt();
+                            },
+                            imagePath: "assets/images/bill.png",
+                            image: waterCubit.imageReceiptUrl,
+                            imageWidget: Container(
+                              decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                      image: NetworkImage('${waterCubit.imageReceiptUrl}'),
+                                      fit: BoxFit.cover
+                                  )
+                              ),
+                            ),
+                          ),
+                          fallback: (context) => const Center(child: CircularProgressIndicator(),),
                         ),
-                        fallback: (context) => const Center(child: CircularProgressIndicator(),),
-                      ),
-                    ],
+                        SizedBox(height: 20.h,),
+                        ConditionalBuilder(
+                          condition: state is !SendWaterInstallationLoading,
+                          builder: (context) =>  ButtonCustomWidget(
+                            buttonColor: blueColor,
+                            text: "إرسال",
+                            color: whiteColor,
+                            buttonWidth:
+                            MediaQuery.of(context).size.width,
+                            buttonHeight: 48,
+                            onPressed: (){
+                              if(formKey.currentState!.validate() && waterCubit.idImageUrl != null && waterCubit.imageContractUrl != null && waterCubit.imageReceiptUrl != null){
+                                waterCubit.sendWaterInstallation(
+                                    customerName: nameController.text,
+                                    customerAddress: addressController.text,
+                                    customerMobile: mobileController.text,
+                                    homeType: waterCubit.selectedTypeInstallation,
+                                    idImage: waterCubit.idImageUrl,
+                                    imageContract: waterCubit.imageContractUrl,
+                                    imageReceipt: waterCubit.imageReceiptUrl
+                                );
+                              }else{
+                                defaultSnackBar(
+                                    context: context,
+                                    color: Colors.red,
+                                    text: 'من فضلك تأكد من ارسال كل المعلومات المطلوبة والصور المطلوبة'
+                                );
+                              }
+                            },
+                          ),
+                          fallback: (context) => const Center(child: CircularProgressIndicator(),),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
