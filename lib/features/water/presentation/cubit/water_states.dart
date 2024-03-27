@@ -43,3 +43,19 @@ class SendWaterReadingError extends WaterStates{}
 class SendRemoveWaterMeterLoading extends WaterStates{}
 class SendRemoveWaterMeterSuccess extends WaterStates{}
 class SendRemoveWaterMeterError extends WaterStates{}
+
+class GetWaterInstallationListLoading extends WaterStates{}
+class GetWaterInstallationListSuccess extends WaterStates{}
+class GetWaterInstallationListError extends WaterStates{}
+
+class GetWaterMaintenanceListLoading extends WaterStates{}
+class GetWaterMaintenanceListSuccess extends WaterStates{}
+class GetWaterMaintenanceListError extends WaterStates{}
+
+class GetWaterMeterReadingLoading extends WaterStates{}
+class GetWaterMeterReadingSuccess extends WaterStates{}
+class GetWaterMeterReadingError extends WaterStates{}
+
+class GetRemoveWaterMeterLoading extends WaterStates{}
+class GetRemoveWaterMeterSuccess extends WaterStates{}
+class GetRemoveWaterMeterError extends WaterStates{}

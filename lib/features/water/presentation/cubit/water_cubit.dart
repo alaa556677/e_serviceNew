@@ -8,6 +8,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 
+import '../../domain/entity/1.1water_installation_entity.dart';
+import '../../domain/entity/2.1water_maintenance_entity.dart';
+import '../../domain/entity/3.1water_meter_reading_entity.dart';
+import '../../domain/entity/4.1water_remove_meter_entity.dart';
+
 class WaterCubit extends Cubit <WaterStates> {
   WaterCubit() : super(InitialWaterState());
   static WaterCubit get(context) => BlocProvider.of(context);
@@ -112,10 +117,10 @@ class WaterCubit extends Cubit <WaterStates> {
   }
 ////////////////////////////////////////////////////////////////////////////////
   CollectionReference waterMaintenanceRequest = FirebaseFirestore.instance.collection('waterMaintenanceRequest');
-  sendMaintenanceRequest ({customerName, customerAddress, customerMobile, homeType, details, imageReceiptMaintenance}){
+  sendMaintenanceRequest ({customerName, customerAddress, customerMobile, homeType, details, imageReceiptMaintenance}) async {
     emit(SendMaintenanceRequestLoading());
     try{
-      waterMaintenanceRequest.doc(FirebaseAuth.instance.currentUser?.uid).set({
+      waterMaintenanceRequest.add({
         'customerName': customerName,
         'customerAddress': customerAddress,
         'customerMobile': customerMobile,
@@ -129,25 +134,25 @@ class WaterCubit extends Cubit <WaterStates> {
     }
   }
 ////////////////////////////////////////////////////////////////////////////////
-  String? imageMeterMaintenanceUrl;
-  uploadImageMeterMaintenance() async {
-    emit(UploadImageMeterLoading());
-    try {
-      XFile? imgPicked = await ImagePicker().pickImage(source: ImageSource.gallery);
-      var nameImage = basename(imgPicked!.path);
-      if (imgPicked != null) {
-        File imageId = File(imgPicked.path);
-        var random = Random().nextInt(10000);
-        nameImage = '$random$nameImage';
-        var refStorage = FirebaseStorage.instance.ref("images/$nameImage");
-        await refStorage.putFile(imageId!);
-        imageMeterMaintenanceUrl = await refStorage.getDownloadURL();
-      }
-      emit(UploadImageMeterSuccess());
-    } catch (e) {
-      emit(UploadImageMeterError());
-    }
-  }
+//   String? imageMeterMaintenanceUrl;
+//   uploadImageMeterMaintenance() async {
+//     emit(UploadImageMeterLoading());
+//     try {
+//       XFile? imgPicked = await ImagePicker().pickImage(source: ImageSource.gallery);
+//       var nameImage = basename(imgPicked!.path);
+//       if (imgPicked != null) {
+//         File imageId = File(imgPicked.path);
+//         var random = Random().nextInt(10000);
+//         nameImage = '$random$nameImage';
+//         var refStorage = FirebaseStorage.instance.ref("images/$nameImage");
+//         await refStorage.putFile(imageId!);
+//         imageMeterMaintenanceUrl = await refStorage.getDownloadURL();
+//       }
+//       emit(UploadImageMeterSuccess());
+//     } catch (e) {
+//       emit(UploadImageMeterError());
+//     }
+//   }
 ////////////////////////////////////////////////////////////////////////////////
   String? imageMeterReceiptUrl;
   uploadImageMeterReceiptMaintenance() async {
@@ -170,13 +175,15 @@ class WaterCubit extends Cubit <WaterStates> {
   }
 ////////////////////////////////////////////////////////////////////////////////
   CollectionReference waterMeterReading = FirebaseFirestore.instance.collection('waterMeterReading');
-  sendWaterMeterReading ({previousReading, nowReading, imageMeterMaintenance, imageMeterReceipt}){
+  sendWaterMeterReading ({customerName, customerAddress, previousReading, nowReading, meterNumber, imageMeterReceipt}){
     emit(SendWaterReadingLoading());
     try{
-      waterMeterReading.doc(FirebaseAuth.instance.currentUser?.uid).set({
+      waterMeterReading.add({
+        'customerName' : customerName,
+        'customerAddress' : customerAddress,
         'previousReading': previousReading,
         'nowReading': nowReading,
-        'imageMeterMaintenance': imageMeterMaintenance,
+        'meterNumber': meterNumber,
         'imageMeterReceipt': imageMeterReceipt,
       });
       emit(SendWaterReadingSuccess());
@@ -192,14 +199,14 @@ class WaterCubit extends Cubit <WaterStates> {
   }
 ////////////////////////////////////////////////////////////////////////////////
   CollectionReference removeWaterMeter = FirebaseFirestore.instance.collection('removeWaterMeter');
-  sendRemoveWaterMeter ({customerName, customerAddress, customerMobile, nationalId, nowReadingMeter, reason}){
+  sendRemoveWaterMeter ({customerName, customerAddress, customerMobile, meterNumber, nowReadingMeter, reason}){
     emit(SendRemoveWaterMeterLoading());
     try{
       removeWaterMeter.doc(FirebaseAuth.instance.currentUser?.uid).set({
         'customerName': customerName,
         'customerAddress': customerAddress,
         'customerMobile': customerMobile,
-        'nationalId': nationalId,
+        'meterNumber': meterNumber,
         'nowReadingMeter': nowReadingMeter,
         'reason': reason,
       });
@@ -207,5 +214,61 @@ class WaterCubit extends Cubit <WaterStates> {
     } catch (e){
       emit(SendRemoveWaterMeterError());
     }
+  }
+//////////////////////////////////////////////////////////////////////////////// show all water installation request
+  List <WaterInstallationEntity> waterInstallationRequestList = [];
+  getWaterInstallation() async {
+    emit(GetWaterInstallationListLoading());
+    await FirebaseFirestore.instance.collection('waterInstallation').get().then((value){
+      for(var i in value.docs){
+        waterInstallationRequestList.add(WaterInstallationEntity.fromJson(i.data()));
+      }
+      emit(GetWaterInstallationListSuccess());
+    }).catchError((error){
+      print('error ${error.toString()}');
+      emit(GetWaterInstallationListError());
+    });
+  }
+////////////////////////////////////////////////////////////////////////////////
+  List <WaterMaintenanceEntity> waterMaintenanceRequestList = [];
+  getWaterMaintenance() async{
+    emit(GetWaterMaintenanceListLoading());
+    await FirebaseFirestore.instance.collection('waterMaintenanceRequest').get().then((value){
+      for(var i in value.docs){
+        waterMaintenanceRequestList.add(WaterMaintenanceEntity.fromJson(i.data()));
+      }
+      emit(GetWaterMaintenanceListSuccess());
+    }).catchError((error){
+      print('error ${error.toString()}');
+      emit(GetWaterMaintenanceListError());
+    });
+  }
+////////////////////////////////////////////////////////////////////////////////
+  List <WaterMeterReadingEntity> waterMeterReadingRequestList = [];
+  getWaterMeterReading() async{
+    emit(GetWaterMeterReadingLoading());
+    await FirebaseFirestore.instance.collection('waterMeterReading').get().then((value){
+      for(var i in value.docs){
+        waterMeterReadingRequestList.add(WaterMeterReadingEntity.fromJson(i.data()));
+      }
+      emit(GetWaterMeterReadingSuccess());
+    }).catchError((error){
+      print('error ${error.toString()}');
+      emit(GetWaterMeterReadingError());
+    });
+  }
+////////////////////////////////////////////////////////////////////////////////
+  List <WaterRemoveMeterEntity> waterRemoveMeterList = [];
+  getWaterRemoveMeter() async{
+    emit(GetRemoveWaterMeterLoading());
+    await FirebaseFirestore.instance.collection('removeWaterMeter').get().then((value){
+      for(var i in value.docs){
+        waterRemoveMeterList.add(WaterRemoveMeterEntity.fromJson(i.data()));
+      }
+      emit(GetRemoveWaterMeterSuccess());
+    }).catchError((error){
+      print('error ${error.toString()}');
+      emit(GetRemoveWaterMeterError());
+    });
   }
 }

@@ -1,4 +1,4 @@
-import 'package:e_services/admin_features/admin_water/presentation/pages/admin_water_installation_screen.dart';
+import 'package:e_services/features/water/presentation/pages/1.water_installation/admin_water_installation_screen.dart';
 import 'package:e_services/core/widgets/default_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -34,7 +34,7 @@ class AdminElectricityInstallationRequestScreen extends StatelessWidget {
                   subtitle: Text(propertyType[index],style: TextStyle(color: Colors.grey),),
                   trailing: Text("نوع الخدمة: عداد جديد"),
                   onTap: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) =>  AdminWaterInstallationScreen()));
+                    //Navigator.push(context, MaterialPageRoute(builder: (context) =>  AdminWaterInstallationScreen()));
                   },
 
                 ),

@@ -6,13 +6,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../core/widgets/button_custom_widget.dart';
-import '../../../../core/widgets/custom_text.dart';
-import '../../../../core/widgets/custom_text_form_field.dart';
-import '../../../../core/widgets/default_screen.dart';
-import '../../../../core/widgets/label_Text_form_field.dart';
-import '../../../../core/widgets/snac_bar.dart';
-import '../cubit/water_states.dart';
+import '../../../../../core/widgets/button_custom_widget.dart';
+import '../../../../../core/widgets/custom_text.dart';
+import '../../../../../core/widgets/custom_text_form_field.dart';
+import '../../../../../core/widgets/default_screen.dart';
+import '../../../../../core/widgets/label_Text_form_field.dart';
+import '../../../../../core/widgets/snac_bar.dart';
+import '../../cubit/water_states.dart';
 
 
 class WaterMeterReadingScreen extends StatefulWidget {
@@ -22,6 +22,9 @@ class WaterMeterReadingScreen extends StatefulWidget {
 }
 
 class _WaterMeterReadingScreenState extends State<WaterMeterReadingScreen> {
+  TextEditingController customerNameController = TextEditingController();
+  TextEditingController customerAddressController = TextEditingController();
+  TextEditingController meterReadingController = TextEditingController();
   TextEditingController nowReadingController = TextEditingController();
   TextEditingController previousTypeController = TextEditingController();
   late WaterCubit waterCubit;
@@ -35,8 +38,10 @@ class _WaterMeterReadingScreenState extends State<WaterMeterReadingScreen> {
           if(state is SendWaterReadingSuccess){
             nowReadingController.clear();
             previousTypeController.clear();
+            customerNameController.clear();
+            customerAddressController.clear();
+            meterReadingController.clear();
             waterCubit.imageMeterReceiptUrl = null;
-            waterCubit.imageMeterMaintenanceUrl = null;
             defaultSnackBar(
                 context: context,
                 color: Colors.green,
@@ -70,6 +75,25 @@ class _WaterMeterReadingScreenState extends State<WaterMeterReadingScreen> {
                       ),
                       SizedBox(height: 20.h,),
                       LabelTextFormField(
+                        hintText: "اسم العميل",
+                        controller: customerNameController,
+                        label: 'اسم العميل',
+                      ),
+                      SizedBox(height: 10.h,),
+                      LabelTextFormField(
+                        hintText: "العنوان",
+                        controller: customerAddressController,
+                        label: 'العنوان',
+                      ),
+                      SizedBox(height: 10.h,),
+                      LabelTextFormField(
+                        hintText: "رقم العداد",
+                        controller: meterReadingController,
+                        keyboardType: TextInputType.number,
+                        label: 'رقم العداد',
+                      ),
+                      SizedBox(height: 10.h,),
+                      LabelTextFormField(
                         hintText: "القراءة السابقة",
                         controller: nowReadingController,
                         keyboardType: TextInputType.number,
@@ -83,27 +107,6 @@ class _WaterMeterReadingScreenState extends State<WaterMeterReadingScreen> {
                         label: 'القراءة الحالية',
                       ),
                       SizedBox(height: 10.h,),
-                      ConditionalBuilder(
-                        condition: state is !UploadImageMeterLoading,
-                        builder: (context) => UploadImageCard(
-                          text: 'صورة العداد',
-                          onTap: () {
-                            waterCubit.uploadImageMeterMaintenance();
-                          },
-                          imagePath: 'assets/images/water_meter.png',
-                          image: waterCubit.imageMeterMaintenanceUrl,
-                          imageWidget: Container(
-                            decoration: BoxDecoration(
-                                image: DecorationImage(
-                                    image: NetworkImage('${waterCubit.imageMeterMaintenanceUrl}'),
-                                    fit: BoxFit.cover
-                                )
-                            ),
-                          ),
-                        ),
-                        fallback: (context) => const Center(child: CircularProgressIndicator(),),
-                      ),
-                      SizedBox(height: 20.h,),
                       ConditionalBuilder(
                         condition: state is !UploadImageMeterReceiptLoading,
                         builder: (context) =>  UploadImageCard(
@@ -134,9 +137,11 @@ class _WaterMeterReadingScreenState extends State<WaterMeterReadingScreen> {
                         buttonHeight: 48,
                         onPressed: (){
                           waterCubit.sendWaterMeterReading(
+                            customerName: customerNameController.text,
+                            customerAddress: customerAddressController.text,
+                            meterNumber: meterReadingController.text,
                             previousReading: previousTypeController.text,
                             nowReading: nowReadingController.text,
-                            imageMeterMaintenance: waterCubit.imageMeterMaintenanceUrl,
                             imageMeterReceipt: waterCubit.imageMeterReceiptUrl
                           );
                         },

@@ -38,7 +38,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       child: BlocConsumer<RegisterCubit, RegisterStates>(
         listener: (context, state) {
           if(state is RegisterSuccess){
-            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const BaseScreen()), (route) => false);
+            Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const BaseScreenUser()), (route) => false);
           }
         },
         builder: (context, state) {

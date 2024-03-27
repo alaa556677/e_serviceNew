@@ -10,20 +10,18 @@ import 'home_screen.dart';
 import 'settings_screen.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
-class BaseScreenUser extends StatefulWidget {
-  const BaseScreenUser({super.key});
-
+class BaseScreenAdmin extends StatefulWidget {
+  const BaseScreenAdmin({super.key});
   @override
-  State<BaseScreenUser> createState() => _BaseScreenUserState();
+  State<BaseScreenAdmin> createState() => _BaseScreenAdminState();
 }
 
-class _BaseScreenUserState extends State<BaseScreenUser> {
-  late HomeCubit homeCubit;
+class _BaseScreenAdminState extends State<BaseScreenAdmin> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<HomeCubit, HomeStates>(
       builder: (context, state) {
-        homeCubit = BlocProvider.of(context);
+        HomeCubit homeCubit = BlocProvider.of(context);
         return DefaultScreen(
           body:  SafeArea(
             child: Container(
@@ -72,7 +70,7 @@ class _BaseScreenUserState extends State<BaseScreenUser> {
 
 
   List screens = [
-    HomeScreen(),
+    AdminHomeScreen(),
     SettingsScreen(),
     EditProfileScreen(),
   ];

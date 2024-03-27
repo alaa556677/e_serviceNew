@@ -108,7 +108,7 @@ class EditProfileScreen extends StatelessWidget {
                 MediaQuery.of(context).size.width,
                 buttonHeight: 48,
                 onPressed: (){
-                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>  BaseScreen()));
+                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>  BaseScreenUser()));
                 },
               ),
             ],

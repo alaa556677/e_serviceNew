@@ -5,12 +5,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../core/widgets/button_custom_widget.dart';
-import '../../../../core/widgets/custom_text.dart';
-import '../../../../core/widgets/default_screen.dart';
-import '../../../../core/widgets/label_Text_form_field.dart';
-import '../../../../core/widgets/snac_bar.dart';
-import '../cubit/water_states.dart';
+import '../../../../../core/widgets/button_custom_widget.dart';
+import '../../../../../core/widgets/custom_text.dart';
+import '../../../../../core/widgets/default_screen.dart';
+import '../../../../../core/widgets/label_Text_form_field.dart';
+import '../../../../../core/widgets/snac_bar.dart';
+import '../../cubit/water_states.dart';
 
 class WaterRemoveMeterScreen extends StatefulWidget {
   const WaterRemoveMeterScreen({super.key,});
@@ -22,7 +22,7 @@ class _WaterRemoveMeterScreenState extends State<WaterRemoveMeterScreen> {
   TextEditingController nameController = TextEditingController();
   TextEditingController addressController = TextEditingController();
   TextEditingController mobileController = TextEditingController();
-  TextEditingController idController = TextEditingController();
+  TextEditingController meterNumberController = TextEditingController();
   TextEditingController meterReadingController = TextEditingController();
   TextEditingController detailController = TextEditingController();
   late WaterCubit waterCubit;
@@ -32,7 +32,7 @@ class _WaterRemoveMeterScreenState extends State<WaterRemoveMeterScreen> {
     nameController.dispose();
     addressController.dispose();
     mobileController.dispose();
-    idController.dispose();
+    meterNumberController.dispose();
     meterReadingController.dispose();
     detailController.dispose();
     super.dispose();
@@ -48,7 +48,7 @@ class _WaterRemoveMeterScreenState extends State<WaterRemoveMeterScreen> {
             nameController.clear();
             addressController.clear();
             mobileController.clear();
-            idController.clear();
+            meterNumberController.clear();
             meterReadingController.clear();
             detailController.clear();
             defaultSnackBar(
@@ -102,10 +102,10 @@ class _WaterRemoveMeterScreenState extends State<WaterRemoveMeterScreen> {
                       ),
                       SizedBox(height: 10.h,),
                       LabelTextFormField(
-                        hintText: "رقم إثبات الشخصية",
-                        controller: idController,
+                        hintText: "رقم العداد",
+                        controller: meterNumberController,
                         keyboardType: TextInputType.number,
-                        label: 'رقم إثبات الشخصية',
+                        label: 'رقم العداد',
                       ),
                       SizedBox(height: 10.h,),
                       LabelTextFormField(
@@ -133,7 +133,7 @@ class _WaterRemoveMeterScreenState extends State<WaterRemoveMeterScreen> {
                             customerName: nameController.text,
                             customerAddress: addressController.text,
                             customerMobile: mobileController.text,
-                            nationalId: idController.text,
+                            meterNumber: meterNumberController.text,
                             nowReadingMeter: meterReadingController.text,
                             reason: detailController.text
                           );
