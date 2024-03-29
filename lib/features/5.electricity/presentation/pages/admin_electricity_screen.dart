@@ -1,7 +1,7 @@
-import 'package:e_services/admin_features/admin_electicity/pages/admin_electricity_installation_requests_screen.dart';
-import 'package:e_services/admin_features/admin_electicity/pages/admin_electricity_maintenance_requests_screen.dart';
-import 'package:e_services/admin_features/admin_electicity/pages/admin_electricity_meter_readin_requests_screen.dart';
-import 'package:e_services/admin_features/admin_electicity/pages/admin_electricity_remove_meter_requests_screen.dart';
+import 'package:e_services/features/5.electricity/presentation/pages/1.electricity_installation/admin_electricity_installation_requests_screen.dart';
+import 'package:e_services/features/5.electricity/presentation/pages/2.electricity_maintenance/admin_electricity_maintenance_requests_screen.dart';
+import 'package:e_services/features/5.electricity/presentation/pages/3.electricity_meter_reading/admin_electricity_meter_readin_requests_screen.dart';
+import 'package:e_services/features/5.electricity/presentation/pages/4.electricity_remove_meter/admin_electricity_remove_meter_requests_screen.dart';
 import 'package:e_services/core/utils/colors.dart';
 import 'package:e_services/core/widgets/card_basic_item.dart';
 import 'package:e_services/core/widgets/default_screen.dart';
@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../cubit/admin_elsctricity_cubit.dart';
+import '../../../../admin_features/admin_electicity/cubit/admin_elsctricity_cubit.dart';
 
 class AdminElectricityScreen extends StatelessWidget {
   const AdminElectricityScreen({super.key});

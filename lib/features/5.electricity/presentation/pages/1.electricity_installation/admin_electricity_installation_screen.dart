@@ -1,20 +1,16 @@
 import 'package:e_services/core/utils/colors.dart';
-import 'package:e_services/core/widgets/button_custom_widget.dart';
 import 'package:e_services/core/widgets/custom_text.dart';
 import 'package:e_services/core/widgets/default_screen.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:insta_image_viewer/insta_image_viewer.dart';
-
 import '../../../../../core/widgets/card_show_data_admin.dart';
-import '../../../domain/entity/2.1water_maintenance_entity.dart';
-import '../1.water_installation/admin_water_installation_screen.dart';
+import '../../../domain/entity/1.1electricity_installation_entity.dart';
 
-class AdminWaterMaintenanceScreen extends StatelessWidget {
-  final WaterMaintenanceEntity waterMaintenanceEntity;
-  const AdminWaterMaintenanceScreen({super.key, required this.waterMaintenanceEntity});
+class AdminElectricityInstallationScreen extends StatelessWidget {
+  final ElectricityInstallationEntity electricityInstallationEntity;
+  const AdminElectricityInstallationScreen({super.key, required this.electricityInstallationEntity});
+
   @override
   Widget build(BuildContext context) {
     return DefaultScreen(
@@ -32,7 +28,7 @@ class AdminWaterMaintenanceScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     TextWidget(
-                      text: 'تفاصيل الصيانه والتعديلات',
+                      text: 'تفاصيل التعاقد',
                       fontColor: blackColor,
                       fontWeight: FontWeight.w600,
                       fontSize: 24.sp,
@@ -42,33 +38,40 @@ class AdminWaterMaintenanceScreen extends StatelessWidget {
                 SizedBox(height: 20.h,),
                 CardShowDataWaterInstallation(
                   title: "اسم العميل",
-                  customerName: waterMaintenanceEntity.customerName,
+                  customerName: electricityInstallationEntity.customerName,
                 ),
                 SizedBox(height: 10.h,),
                 CardShowDataWaterInstallation(
                   title: 'رقم الموبايل',
-                  customerName: waterMaintenanceEntity.customerMobile,
+                  customerName: electricityInstallationEntity.customerMobile,
                 ),
                 SizedBox(height: 10.h,),
                 CardShowDataWaterInstallation(
-                  title: 'العنوان',
-                  customerName: waterMaintenanceEntity.customerAddress,
+                  title:'العنوان',
+                  customerName: electricityInstallationEntity.customerAddress,
                 ),
                 SizedBox(height: 10.h,),
                 CardShowDataWaterInstallation(
-                  title: 'نوع العقار',
-                  customerName: waterMaintenanceEntity.homeType,
+                  title:'نوع العقار',
+                  customerName: electricityInstallationEntity.homeType,
                 ),
                 SizedBox(height: 10.h,),
                 CardShowDataWaterInstallation(
-                  title: 'وصف الحالة',
-                  customerName: waterMaintenanceEntity.details,
-                ),
-                SizedBox(height: 10.h,),
-                CardShowDataWaterInstallation(
-                  title: 'صورة إيصال مياه',
+                  title:'صورة إثبات الشخصية',
                   isImage: true,
-                  imageUrl: waterMaintenanceEntity.receiptImageUrl,
+                  imageUrl: electricityInstallationEntity.idImageUrl,
+                ),
+                SizedBox(height: 10.h,),
+                CardShowDataWaterInstallation(
+                  title:'صورة عقد الملكية',
+                  isImage: true,
+                  imageUrl: electricityInstallationEntity.contractImageUrl,
+                ),
+                SizedBox(height: 10.h,),
+                CardShowDataWaterInstallation(
+                  title:'صورة الايصال',
+                  isImage: true,
+                  imageUrl: electricityInstallationEntity.receiptImageUrl,
                 ),
                 SizedBox(height: 20.h,),
               ],

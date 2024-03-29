@@ -76,42 +76,6 @@ class AdminGasInstallationScreen extends StatelessWidget {
                   imageUrl: gasInstallationEntity.receiptImageUrl,
                 ),
                 SizedBox(height: 20.h,),
-                Container(
-                  width: MediaQuery.of(context).size.width,
-                  alignment: Alignment.center,
-                  padding: EdgeInsets.symmetric(horizontal: 10.0,vertical: 10.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        flex: 1,
-                        child: MaterialButton(
-                          onPressed: (){},
-                          height: 50.0,
-                          color: Colors.red,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20.0)
-                          ),
-                          child: Text("مرفوض",style: TextStyle(color: Colors.white),),
-                        ),
-                      ),
-                      SizedBox(width: 20.0,),
-                      Expanded(
-                        flex: 1,
-                        child: MaterialButton(
-                          onPressed: (){},
-                          height: 50.0,
-                          color: blueColor,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20.0)
-                          ),
-                          child: Text("مقبول",style: TextStyle(color: Colors.white),),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 20.0,)
               ],
             ),
           ),

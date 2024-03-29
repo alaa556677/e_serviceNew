@@ -1,48 +1,49 @@
-import 'package:e_services/features/4.gas/presentation/cubit/gas_cubit.dart';
-import 'package:e_services/features/4.gas/presentation/pages/4.remove_gas_meter/admin_gas_remove_meter_screen.dart';
+import 'package:e_services/features/5.electricity/presentation/cubit/electricity_cubit.dart';
+import 'package:e_services/features/5.electricity/presentation/pages/4.electricity_remove_meter/admin_electricity_remove_meter_screen.dart';
 import 'package:e_services/core/widgets/default_screen.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../../core/utils/colors.dart';
 import '../../../../../core/widgets/custom_text.dart';
-import '../../../domain/entity/4.1gas_remove_meter_entity.dart';
-import '../../cubit/gas_states.dart';
+import '../../../domain/entity/4.1electricity_remove_meter_entity.dart';
+import '../../cubit/electricity_states.dart';
 
-class AdminGasRemoveMeterRequestScreen extends StatefulWidget {
-  const AdminGasRemoveMeterRequestScreen({super.key});
+class AdminElectricityRemoveMeterRequestScreen extends StatefulWidget {
+  const AdminElectricityRemoveMeterRequestScreen({super.key});
   @override
-  State<AdminGasRemoveMeterRequestScreen> createState() => _AdminGasRemoveMeterRequestScreenState();
+  State<AdminElectricityRemoveMeterRequestScreen> createState() => _AdminElectricityRemoveMeterRequestScreenState();
 }
 
-class _AdminGasRemoveMeterRequestScreenState extends State<AdminGasRemoveMeterRequestScreen> {
-  late GasCubit gasCubit;
+class _AdminElectricityRemoveMeterRequestScreenState extends State<AdminElectricityRemoveMeterRequestScreen> {
+  late ElectricityCubit electricityCubit;
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => GasCubit()..getWaterRemoveMeter(),
-      child: BlocConsumer<GasCubit, GasStates>(
+      create: (context) => ElectricityCubit()..getElectricityRemoveMeter(),
+      child: BlocConsumer<ElectricityCubit, ElectricityStates>(
         listener: (context, state) {},
         builder: (context, state) {
-          gasCubit = GasCubit.get(context);
+          electricityCubit = ElectricityCubit.get(context);
           return DefaultScreen(
                   body: Column(
                     children: [
                       SizedBox(height: 20.h,),
-                      state is !GetRemoveGasMeterLoading ?
-                      Expanded(
-                        child: ListView.builder(
-                            itemCount: gasCubit.gasRemoveMeterList.length,
-                            shrinkWrap: true,
-                            itemBuilder: (BuildContext context,int index)=>InkWell(
-                                onTap: (){
-                                  Navigator.push(context, MaterialPageRoute(builder: (context) => AdminGasRemoveMeterScreen(gasRemoveMeterEntity: gasCubit.gasRemoveMeterList[index],)));
-                                },
-                                child: CardRequestWaterMaintenance(gasRemoveMeterEntity: gasCubit.gasRemoveMeterList[index],))
-                        ),
-                      ) : const Center(child: CircularProgressIndicator(),),
+                      state is !GetRemoveElectricityMeterLoading ?
+                        Expanded(
+                          child: ListView.builder(
+                              itemCount: electricityCubit.electricityRemoveMeterList.length,
+                              shrinkWrap: true,
+                              itemBuilder: (BuildContext context,int index)=> InkWell(
+                                  onTap: (){
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) => AdminElectricityRemoveMeterScreen(
+                                      electricityRemoveMeterEntity: electricityCubit.electricityRemoveMeterList[index],
+                                    )));
+                                  },
+                                  child: CardRequestWaterMaintenance(electricityRemoveMeterEntity: electricityCubit.electricityRemoveMeterList[index],))
+                          ),
+                        ) : const Center(child: CircularProgressIndicator(),),
                     ],
                   ));
         },
@@ -52,8 +53,8 @@ class _AdminGasRemoveMeterRequestScreenState extends State<AdminGasRemoveMeterRe
 }
 
 class CardRequestWaterMaintenance extends StatelessWidget{
-  final GasRemoveMeterEntity gasRemoveMeterEntity;
-  const CardRequestWaterMaintenance({super.key, required this.gasRemoveMeterEntity});
+  final ElectricityRemoveMeterEntity electricityRemoveMeterEntity;
+  const CardRequestWaterMaintenance({super.key, required this.electricityRemoveMeterEntity});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -82,14 +83,14 @@ class CardRequestWaterMaintenance extends StatelessWidget{
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   TextWidget (
-                    text: gasRemoveMeterEntity.customerName,
+                    text: electricityRemoveMeterEntity.customerName,
                     fontWeight: FontWeight.bold,
                     fontColor: Colors.black,
                     fontSize: 18.sp,
                   ),
                   SizedBox(height: 2.h,),
                   TextWidget (
-                    text: gasRemoveMeterEntity.customerAddress,
+                    text: electricityRemoveMeterEntity.customerAddress,
                     fontWeight: FontWeight.w400,
                     fontColor: textGreyColor,
                     fontSize: 12.sp,
@@ -98,7 +99,7 @@ class CardRequestWaterMaintenance extends StatelessWidget{
               ),
             ),
             TextWidget(
-              text: gasRemoveMeterEntity.meterNumber,
+              text: electricityRemoveMeterEntity.meterNumber,
               fontWeight: FontWeight.w600,
               fontColor: textGreyColor,
               fontSize: 14.sp,

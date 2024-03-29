@@ -31,6 +31,7 @@ class _AdminWaterInstallationRequestsScreenState extends State<AdminWaterInstall
               body: Column(
                 children: [
                   SizedBox(height: 20.h,),
+                  state is !GetWaterInstallationListLoading ?
                   Expanded(
                     child: ListView.builder(
                       itemCount: waterCubit.waterInstallationRequestList.length,
@@ -41,7 +42,7 @@ class _AdminWaterInstallationRequestsScreenState extends State<AdminWaterInstall
                         },
                         child: CardRequestWaterInstallation(waterInstallationEntity: waterCubit.waterInstallationRequestList[index],))
                     ),
-                  ),
+                  ) : const Center(child: CircularProgressIndicator(),),
                 ],
               )
             );

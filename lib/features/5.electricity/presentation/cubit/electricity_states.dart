@@ -1,4 +1,4 @@
-  abstract class ElectricityStates{}
+abstract class ElectricityStates{}
 
 class InitialElectricityState extends ElectricityStates{}
 
@@ -27,3 +27,35 @@ class UploadImageMeterReceiptSuccess extends ElectricityStates{}
 class UploadImageMeterReceiptError extends ElectricityStates{}
 
 class ChangeItemInstallation extends ElectricityStates{}
+
+class SendElectricityInstallationLoading extends ElectricityStates{}
+class SendElectricityInstallationSuccess extends ElectricityStates{}
+class SendElectricityInstallationError extends ElectricityStates{}
+
+class SendMaintenanceRequestLoading extends ElectricityStates{}
+class SendMaintenanceRequestSuccess extends ElectricityStates{}
+class SendMaintenanceRequestError extends ElectricityStates{}
+
+class SendElectricityReadingLoading extends ElectricityStates{}
+class SendElectricityReadingSuccess extends ElectricityStates{}
+class SendElectricityReadingError extends ElectricityStates{}
+
+class SendRemoveElectricityMeterLoading extends ElectricityStates{}
+class SendRemoveElectricityMeterSuccess extends ElectricityStates{}
+class SendRemoveElectricityMeterError extends ElectricityStates{}
+
+class GetElectricityInstallationListLoading extends ElectricityStates{}
+class GetElectricityInstallationListSuccess extends ElectricityStates{}
+class GetElectricityInstallationListError extends ElectricityStates{}
+
+class GetElectricityMaintenanceListLoading extends ElectricityStates{}
+class GetElectricityMaintenanceListSuccess extends ElectricityStates{}
+class GetElectricityMaintenanceListError extends ElectricityStates{}
+
+class GetElectricityMeterReadingLoading extends ElectricityStates{}
+class GetElectricityMeterReadingSuccess extends ElectricityStates{}
+class GetElectricityMeterReadingError extends ElectricityStates{}
+
+class GetRemoveElectricityMeterLoading extends ElectricityStates{}
+class GetRemoveElectricityMeterSuccess extends ElectricityStates{}
+class GetRemoveElectricityMeterError extends ElectricityStates{}

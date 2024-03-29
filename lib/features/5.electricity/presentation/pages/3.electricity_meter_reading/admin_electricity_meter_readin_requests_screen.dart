@@ -1,47 +1,47 @@
-
+import 'package:e_services/features/5.electricity/presentation/cubit/electricity_cubit.dart';
+import 'package:e_services/features/5.electricity/presentation/pages/3.electricity_meter_reading/admin_electricity_meter_readin_screen.dart';
 import 'package:e_services/core/widgets/default_screen.dart';
-import 'package:e_services/features/4.gas/presentation/cubit/gas_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../../core/utils/colors.dart';
 import '../../../../../core/widgets/custom_text.dart';
-import '../../../domain/entity/1.1gas_installation_entity.dart';
-import '../../cubit/gas_states.dart';
-import 'admin_gas_installation_screen.dart';
+import '../../../domain/entity/3.1electricity_meter_reading_entity.dart';
+import '../../cubit/electricity_states.dart';
 
-class AdminGasInstallationRequestScreen extends StatefulWidget {
-   AdminGasInstallationRequestScreen({super.key});
+class AdminElectricityMeterReadingRequestScreen extends StatefulWidget {
+  const AdminElectricityMeterReadingRequestScreen({super.key});
   @override
-  State<AdminGasInstallationRequestScreen> createState() => _AdminGasInstallationRequestScreenState();
+  State<AdminElectricityMeterReadingRequestScreen> createState() => _AdminElectricityMeterReadingRequestScreenState();
 }
 
-class _AdminGasInstallationRequestScreenState extends State<AdminGasInstallationRequestScreen> {
-  late GasCubit gasCubit;
+class _AdminElectricityMeterReadingRequestScreenState extends State<AdminElectricityMeterReadingRequestScreen> {
+  late ElectricityCubit electricityCubit;
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => GasCubit()..getGasInstallation(),
-      child: BlocConsumer<GasCubit, GasStates>(
+      create: (context) => ElectricityCubit()..getElectricityMeterReading(),
+      child: BlocConsumer<ElectricityCubit, ElectricityStates>(
         listener: (context, state) {},
         builder: (context, state) {
-          gasCubit = GasCubit.get(context);
+          electricityCubit = ElectricityCubit.get(context);
           return DefaultScreen(
                   body: Column(
                     children: [
                       SizedBox(height: 20.h,),
-                      state is !GetGasInstallationListLoading ?
+                      state is !GetElectricityMeterReadingLoading ?
                       Expanded(
                         child: ListView.builder(
-                            itemCount: gasCubit.gasInstallationRequestList.length,
+                            itemCount: electricityCubit.electricityMeterReadingRequestList.length,
                             shrinkWrap: true,
                             itemBuilder: (BuildContext context,int index)=> InkWell(
-                              onTap: (){
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => AdminGasInstallationScreen(gasInstallationEntity: gasCubit.gasInstallationRequestList[index],)));
-
-                              },
-                              child: CardRequestWaterInstallation(gasInstallationEntity: gasCubit.gasInstallationRequestList[index],))
+                                onTap: (){
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => AdminElectricityMeterReadingScreen(
+                                    electricityMeterReadingEntity: electricityCubit.electricityMeterReadingRequestList[index],
+                                  )));
+                                },
+                                child: CardRequestWaterMaintenance(electricityMeterReadingEntity: electricityCubit.electricityMeterReadingRequestList[index],))
                         ),
                       ) : const Center(child: CircularProgressIndicator(),),
                     ],
@@ -52,9 +52,9 @@ class _AdminGasInstallationRequestScreenState extends State<AdminGasInstallation
   }
 }
 
-class CardRequestWaterInstallation extends StatelessWidget{
-  final GasInstallationEntity gasInstallationEntity;
-  const CardRequestWaterInstallation({super.key, required this.gasInstallationEntity});
+class CardRequestWaterMaintenance extends StatelessWidget{
+  final ElectricityMeterReadingEntity electricityMeterReadingEntity;
+  const CardRequestWaterMaintenance({super.key, required this.electricityMeterReadingEntity});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -83,14 +83,14 @@ class CardRequestWaterInstallation extends StatelessWidget{
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   TextWidget (
-                    text: gasInstallationEntity.customerName,
+                    text: electricityMeterReadingEntity.customerName,
                     fontWeight: FontWeight.bold,
                     fontColor: Colors.black,
                     fontSize: 18.sp,
                   ),
                   SizedBox(height: 2.h,),
                   TextWidget (
-                    text: gasInstallationEntity.customerAddress,
+                    text: electricityMeterReadingEntity.customerAddress,
                     fontWeight: FontWeight.w400,
                     fontColor: textGreyColor,
                     fontSize: 12.sp,
@@ -99,7 +99,7 @@ class CardRequestWaterInstallation extends StatelessWidget{
               ),
             ),
             TextWidget(
-              text: gasInstallationEntity.homeType,
+              text: electricityMeterReadingEntity.meterNumber,
               fontWeight: FontWeight.w600,
               fontColor: textGreyColor,
               fontSize: 14.sp,

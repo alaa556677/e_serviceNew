@@ -1,20 +1,16 @@
 import 'package:e_services/core/utils/colors.dart';
-import 'package:e_services/core/widgets/button_custom_widget.dart';
 import 'package:e_services/core/widgets/custom_text.dart';
 import 'package:e_services/core/widgets/default_screen.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:insta_image_viewer/insta_image_viewer.dart';
 
 import '../../../../../core/widgets/card_show_data_admin.dart';
-import '../../../domain/entity/2.1water_maintenance_entity.dart';
-import '../1.water_installation/admin_water_installation_screen.dart';
+import '../../../domain/entity/4.1electricity_remove_meter_entity.dart';
 
-class AdminWaterMaintenanceScreen extends StatelessWidget {
-  final WaterMaintenanceEntity waterMaintenanceEntity;
-  const AdminWaterMaintenanceScreen({super.key, required this.waterMaintenanceEntity});
+class AdminElectricityRemoveMeterScreen extends StatelessWidget {
+  final ElectricityRemoveMeterEntity electricityRemoveMeterEntity;
+  const AdminElectricityRemoveMeterScreen({super.key, required this.electricityRemoveMeterEntity});
+
   @override
   Widget build(BuildContext context) {
     return DefaultScreen(
@@ -32,7 +28,7 @@ class AdminWaterMaintenanceScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     TextWidget(
-                      text: 'تفاصيل الصيانه والتعديلات',
+                      text: 'تفاصيل رفع عداد الكهرباء',
                       fontColor: blackColor,
                       fontWeight: FontWeight.w600,
                       fontSize: 24.sp,
@@ -41,36 +37,35 @@ class AdminWaterMaintenanceScreen extends StatelessWidget {
                 ),
                 SizedBox(height: 20.h,),
                 CardShowDataWaterInstallation(
-                  title: "اسم العميل",
-                  customerName: waterMaintenanceEntity.customerName,
-                ),
-                SizedBox(height: 10.h,),
-                CardShowDataWaterInstallation(
-                  title: 'رقم الموبايل',
-                  customerName: waterMaintenanceEntity.customerMobile,
+                  title: 'اسم العميل',
+                  customerName: electricityRemoveMeterEntity.customerName,
                 ),
                 SizedBox(height: 10.h,),
                 CardShowDataWaterInstallation(
                   title: 'العنوان',
-                  customerName: waterMaintenanceEntity.customerAddress,
+                  customerName: electricityRemoveMeterEntity.customerAddress,
                 ),
                 SizedBox(height: 10.h,),
                 CardShowDataWaterInstallation(
-                  title: 'نوع العقار',
-                  customerName: waterMaintenanceEntity.homeType,
+                  title:'رقم الموبايل',
+                  customerName: electricityRemoveMeterEntity.customerMobile,
                 ),
                 SizedBox(height: 10.h,),
                 CardShowDataWaterInstallation(
-                  title: 'وصف الحالة',
-                  customerName: waterMaintenanceEntity.details,
+                  title:'رقم العداد',
+                  customerName: electricityRemoveMeterEntity.meterNumber,
                 ),
                 SizedBox(height: 10.h,),
                 CardShowDataWaterInstallation(
-                  title: 'صورة إيصال مياه',
-                  isImage: true,
-                  imageUrl: waterMaintenanceEntity.receiptImageUrl,
+                  title:'أحدث قرائة للعداد',
+                  customerName: electricityRemoveMeterEntity.nowReading,
                 ),
-                SizedBox(height: 20.h,),
+                SizedBox(height: 10.h,),
+                CardShowDataWaterInstallation(
+                  title:'سبب طلب رفع العداد',
+                  customerName: electricityRemoveMeterEntity.reason,
+                ),
+                SizedBox(height: 20.0,),
               ],
             ),
           ),

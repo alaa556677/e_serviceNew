@@ -30,6 +30,7 @@ class _AdminWaterMeterReadingRequestScreenState extends State<AdminWaterMeterRea
                 body: Column(
                   children: [
                     SizedBox(height: 20.h,),
+                    state is !GetWaterMeterReadingLoading?
                     Expanded(
                       child: ListView.builder(
                           itemCount: waterCubit.waterMeterReadingRequestList.length,
@@ -40,7 +41,7 @@ class _AdminWaterMeterReadingRequestScreenState extends State<AdminWaterMeterRea
                               },
                               child: CardRequestWaterMaintenance(waterMeterReadingEntity: waterCubit.waterMeterReadingRequestList[index],))
                       ),
-                    ),
+                    ) : const Center(child: CircularProgressIndicator(),),
                   ],
                 ));
           },

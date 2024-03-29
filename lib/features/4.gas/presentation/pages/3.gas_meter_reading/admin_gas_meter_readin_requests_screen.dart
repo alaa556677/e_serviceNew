@@ -29,6 +29,7 @@ class _AdminGasMeterReadingRequestScreenState extends State<AdminGasMeterReading
                   body: Column(
                     children: [
                       SizedBox(height: 20.h,),
+                      state is !GetGasMeterReadingLoading ?
                       Expanded(
                         child: ListView.builder(
                             itemCount: gasCubit.gasMeterReadingRequestList.length,
@@ -39,7 +40,7 @@ class _AdminGasMeterReadingRequestScreenState extends State<AdminGasMeterReading
                                 },
                                 child: CardRequestWaterMaintenance(gasMeterReadingEntity: gasCubit.gasMeterReadingRequestList[index],))
                         ),
-                      ),
+                      ) : const Center(child: CircularProgressIndicator(),),
                     ],
                   ));
         },

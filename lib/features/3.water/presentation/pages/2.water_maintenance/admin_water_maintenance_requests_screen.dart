@@ -30,17 +30,18 @@ class _AdminWaterMaintenanceRequestsScreenState extends State<AdminWaterMaintena
                 body: Column(
                   children: [
                     SizedBox(height: 20.h,),
-                    Expanded(
-                      child: ListView.builder(
-                          itemCount: waterCubit.waterMaintenanceRequestList.length,
-                          shrinkWrap: true,
-                          itemBuilder: (BuildContext context,int index)=> InkWell(
-                              onTap: (){
-                                Navigator.push(context, MaterialPageRoute(builder: (context) => AdminWaterMaintenanceScreen(waterMaintenanceEntity: waterCubit.waterMaintenanceRequestList[index],)));
-                              },
-                              child: CardRequestWaterMaintenance(waterMaintenanceEntity: waterCubit.waterMaintenanceRequestList[index],))
-                      ),
-                    ),
+                    state is !GetWaterMaintenanceListLoading ?
+                      Expanded(
+                        child: ListView.builder(
+                            itemCount: waterCubit.waterMaintenanceRequestList.length,
+                            shrinkWrap: true,
+                            itemBuilder: (BuildContext context,int index)=> InkWell(
+                                onTap: (){
+                                  Navigator.push(context, MaterialPageRoute(builder: (context) => AdminWaterMaintenanceScreen(waterMaintenanceEntity: waterCubit.waterMaintenanceRequestList[index],)));
+                                },
+                                child: CardRequestWaterMaintenance(waterMaintenanceEntity: waterCubit.waterMaintenanceRequestList[index],))
+                        ),
+                      ): const Center(child: CircularProgressIndicator(),),
                   ],
                 ));
           },

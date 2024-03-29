@@ -33,6 +33,7 @@ class _AdminGasMaintenanceRequestScreenState
             body: Column(
               children: [
                 SizedBox(height: 20.h,),
+                state is !GetGasMaintenanceListLoading ?
                 Expanded(
                   child: ListView.builder(
                     itemCount: gasCubit.gasMaintenanceRequestList.length,
@@ -43,7 +44,7 @@ class _AdminGasMaintenanceRequestScreenState
                         },
                         child: CardRequestWaterMaintenance(gasMaintenanceEntity: gasCubit.gasMaintenanceRequestList[index],))
                   ),
-              ),
+              ) : const Center(child: CircularProgressIndicator(),),
             ],
           ));
         },

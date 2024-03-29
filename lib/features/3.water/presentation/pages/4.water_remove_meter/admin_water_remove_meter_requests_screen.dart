@@ -29,6 +29,7 @@ class _AdminWaterRemoveMeterRequestsScreenState extends State<AdminWaterRemoveMe
                 body: Column(
                   children: [
                     SizedBox(height: 20.h,),
+                    state is !GetRemoveWaterMeterLoading ?
                     Expanded(
                       child: ListView.builder(
                           itemCount: waterCubit.waterRemoveMeterList.length,
@@ -39,7 +40,7 @@ class _AdminWaterRemoveMeterRequestsScreenState extends State<AdminWaterRemoveMe
                               },
                               child: CardRequestWaterMaintenance(waterRemoveMeterEntity: waterCubit.waterRemoveMeterList[index],))
                       ),
-                    ),
+                    ) : const Center(child: CircularProgressIndicator(),),
                   ],
                 ));
           },
