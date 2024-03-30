@@ -10,7 +10,9 @@ class LabelTextFormField extends StatelessWidget{
   String hintText;
   TextEditingController controller;
   TextInputType? keyboardType;
-  LabelTextFormField({super.key, required this.label, required this.controller, required this.hintText, this.keyboardType});
+  int? minLines;
+  int? maxLines;
+  LabelTextFormField({super.key, required this.label, required this.controller, required this.hintText, this.keyboardType, this.minLines, this.maxLines});
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +38,8 @@ class LabelTextFormField extends StatelessWidget{
           hint: hintText,
           autoFocus: false,
           keyboardType: keyboardType,
+          minLines: minLines,
+          maxLines: maxLines,
         ),
       ],
     );

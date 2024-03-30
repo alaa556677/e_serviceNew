@@ -1,6 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import '../../domain/complaints_entity.dart';
 import 'home_states.dart';
 
 class HomeCubit extends Cubit <HomeStates>{
@@ -27,4 +29,32 @@ class HomeCubit extends Cubit <HomeStates>{
     });
   }
 //////////////////////////////////////////////////////////////////////////////////////////
+  CollectionReference complaintsList = FirebaseFirestore.instance.collection('complaintsList');
+  sendComplaintsRequest ({customerName, customerMobile, reason}){
+    emit(SendComplaintsLoading());
+    try{
+      complaintsList.add({
+        'customerName': customerName,
+        'customerMobile': customerMobile,
+        'reason': reason,
+      });
+      emit(SendComplaintsSuccess());
+    } catch (e){
+      emit(SendComplaintsError());
+    }
+  }
+//////////////////////////////////////////////////////////////////////////////////////////
+  List <ComplaintsEntity> complaintsRequestsList = [];
+  getComplaintsList() async {
+    emit(GetComplaintsListLoading());
+    await FirebaseFirestore.instance.collection('complaintsList').get().then((value){
+      for(var i in value.docs){
+        complaintsRequestsList.add(ComplaintsEntity.fromJson(i.data()));
+      }
+      emit(GetComplaintsListSuccess());
+    }).catchError((error){
+      print('error ${error.toString()}');
+      emit(GetComplaintsListError());
+    });
+  }
 }

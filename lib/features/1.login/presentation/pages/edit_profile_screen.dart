@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/utils/colors.dart';
 import '../../../../core/widgets/button_custom_widget.dart';
 import '../../../../core/widgets/custom_text_form_field.dart';
-import '../../../2.home/presentation/pages/base_screen.dart';
+import '../../../2.home/presentation/pages/base_screen/user_base_screen.dart';
 
 class EditProfileScreen extends StatelessWidget {
   EditProfileScreen({super.key});

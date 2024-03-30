@@ -1,29 +1,32 @@
 import 'package:e_services/core/widgets/default_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../core/utils/colors.dart';
-import '../../../1.login/presentation/pages/edit_profile_screen.dart';
-import '../cubit/home_cubit.dart';
-import '../cubit/home_states.dart';
-import 'admin_home_screen.dart';
-import 'settings_screen.dart';
+import '../../../../../core/utils/colors.dart';
+import '../../../../1.login/presentation/pages/edit_profile_screen.dart';
+import '../../cubit/home_cubit.dart';
+import '../../cubit/home_states.dart';
+import '../complaints/user_complaint_request.dart';
+import '../home_screen/user_home_screen.dart';
+import '../settings_screen.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
-class BaseScreenAdmin extends StatefulWidget {
-  const BaseScreenAdmin({super.key});
+class BaseScreenUser extends StatefulWidget {
+  const BaseScreenUser({super.key});
 
   @override
-  State<BaseScreenAdmin> createState() => _BaseScreenAdminState();
+  State<BaseScreenUser> createState() => _BaseScreenUserState();
 }
 
-class _BaseScreenAdminState extends State<BaseScreenAdmin> {
+class _BaseScreenUserState extends State<BaseScreenUser> {
+  late HomeCubit homeCubit;
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => HomeCubit(),
       child: BlocBuilder<HomeCubit, HomeStates>(
         builder: (context, state) {
-          HomeCubit homeCubit = BlocProvider.of(context);
+          homeCubit = BlocProvider.of(context);
           return DefaultScreen(
             body: SafeArea(
               child: Container(
@@ -63,9 +66,9 @@ class _BaseScreenAdminState extends State<BaseScreenAdmin> {
             activeIcon: Icon(Icons.settings, color: whiteColor,),
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person, color: blackColor,),
-            label: 'Edit Profile',
-            activeIcon: Icon(Icons.person, color: whiteColor,),
+            icon: Icon(Icons.report_problem_outlined, color: blackColor,),
+            label: 'Complaints',
+            activeIcon: Icon(Icons.report_problem_outlined, color: whiteColor,),
           ),
         ],
       ),
@@ -74,8 +77,8 @@ class _BaseScreenAdminState extends State<BaseScreenAdmin> {
 
 
   List screens = [
-    AdminHomeScreen(),
+    HomeScreen(),
     SettingsScreen(),
-    EditProfileScreen(),
+    UserComplaintRequestScreen()
   ];
 }

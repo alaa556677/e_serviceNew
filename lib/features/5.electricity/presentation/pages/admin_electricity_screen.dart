@@ -10,7 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../admin_features/admin_electicity/cubit/admin_elsctricity_cubit.dart';
+import '../cubit/electricity_cubit.dart';
+import '../cubit/electricity_states.dart';
 
 class AdminElectricityScreen extends StatelessWidget {
   const AdminElectricityScreen({super.key});
@@ -18,8 +19,8 @@ class AdminElectricityScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => AdminElsctricityCubit(),
-      child: BlocConsumer<AdminElsctricityCubit, AdminElsctricityState>(
+      create: (context) => ElectricityCubit(),
+      child: BlocConsumer<ElectricityCubit, ElectricityStates>(
         listener: (context, state) {},
         builder: (context, state) {
           return DefaultScreen(

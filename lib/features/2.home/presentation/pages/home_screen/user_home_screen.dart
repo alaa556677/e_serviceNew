@@ -1,10 +1,10 @@
 import 'package:e_services/core/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../core/widgets/home_component.dart';
-import '../../../3.water/presentation/pages/water_screen.dart';
-import '../../../4.gas/presentation/pages/gas_screen.dart';
-import '../../../5.electricity/presentation/pages/electricity_screen.dart';
+import '../../../../../core/widgets/home_component.dart';
+import '../../../../3.water/presentation/pages/water_screen.dart';
+import '../../../../4.gas/presentation/pages/gas_screen.dart';
+import '../../../../5.electricity/presentation/pages/electricity_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});

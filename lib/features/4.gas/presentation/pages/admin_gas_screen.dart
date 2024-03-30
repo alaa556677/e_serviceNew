@@ -1,4 +1,3 @@
-import 'package:e_services/admin_features/admin_gas/cubit/admin_gas_cubit.dart';
 import 'package:e_services/features/4.gas/presentation/pages/3.gas_meter_reading/admin_gas_meter_readin_requests_screen.dart';
 import 'package:e_services/features/4.gas/presentation/pages/1.gas_installation/admin_gas_installation_requests_screen.dart';
 import 'package:e_services/features/4.gas/presentation/pages/2.gas_maintenance/admin_gas_maintenance_requests_screen.dart';
@@ -9,6 +8,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../../core/utils/colors.dart';
 import '../../../../../core/widgets/card_basic_item.dart';
+import '../cubit/gas_cubit.dart';
+import '../cubit/gas_states.dart';
 
 
 class AdminGasScreen extends StatelessWidget {
@@ -16,8 +17,8 @@ class AdminGasScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => AdminGasCubit(),
-      child: BlocConsumer<AdminGasCubit, AdminGasState>(
+      create: (context) => GasCubit(),
+      child: BlocConsumer<GasCubit, GasStates>(
         listener: (context, state) {},
         builder: (context, state) {
           return DefaultScreen(

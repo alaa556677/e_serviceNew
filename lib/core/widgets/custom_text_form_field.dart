@@ -28,7 +28,7 @@ class CustomTextFormField extends StatelessWidget {
         this.enabledBorderColor = textGreyColor,
         this.focusBorderColor = blueColor,
         this.errorBorderColor = Colors.red,
-        this.maxLength
+        this.maxLength, this.minLines, this.maxLines
       })
       : super(key: key);
   String? label;
@@ -54,6 +54,8 @@ class CustomTextFormField extends StatelessWidget {
   Color focusBorderColor;
   Color errorBorderColor;
   int? maxLength;
+  int? minLines;
+  int? maxLines;
 
   @override
   Widget build(BuildContext context) {
@@ -66,6 +68,8 @@ class CustomTextFormField extends StatelessWidget {
       keyboardType: keyboardType,
       onFieldSubmitted: onFieldSubmitted,
       maxLength: maxLength,
+      minLines: minLines,
+      maxLines: maxLines,
       onTap: onTap,
       enabled: isEnabled,
       style: TextStyle(color: blackColor, fontSize: 14.sp),
